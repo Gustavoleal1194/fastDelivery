@@ -1,4 +1,5 @@
 import 'package:estudo_flutter/app/modules/registrar_page/show_dialog_confirm.dart';
+import 'package:estudo_flutter/app/modules/registrar_page/phone_class_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -31,6 +32,31 @@ class _RegistrarPageState extends State<RegistrarPage> {
         );
       }
     }
+  }
+
+  String? _validarEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, informe o e-mail';
+    }
+    final regex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    if (!regex.hasMatch(value)) {
+      return 'Por favor, informe um e-mail válido';
+    }
+    return null;
+  }
+
+  String? _validarSenha(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, informe a senha';
+    }
+    if (value.length < 8) {
+      return 'A senha deve ter pelo menos 8 caracteres';
+    }
+    final regex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
+    if (!regex.hasMatch(value)) {
+      return 'A senha deve conter pelo menos uma letra e um número';
+    }
+    return null;
   }
 
   @override
@@ -76,13 +102,15 @@ class _RegistrarPageState extends State<RegistrarPage> {
                       cursorColor: Colors.black,
                       textAlign: TextAlign.start,
                       maxLines: 1,
+                      maxLength: 40,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Por favor, informe o nome';
                         }
-                        return null; // Retorna null se a validação for bem-sucedida
+                        return null;
                       },
                       decoration: const InputDecoration(
+                        counterText: '',
                         fillColor: Colors.white,
                         filled: true,
                         border: OutlineInputBorder(),
@@ -102,12 +130,7 @@ class _RegistrarPageState extends State<RegistrarPage> {
                       cursorColor: Colors.black,
                       textAlign: TextAlign.start,
                       maxLines: 1,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor, informe o e-mail';
-                        }
-                        return null; // Retorna null se a validação for bem-sucedida
-                      },
+                      validator: _validarEmail,
                       decoration: const InputDecoration(
                         fillColor: Colors.white,
                         filled: true,
@@ -129,12 +152,7 @@ class _RegistrarPageState extends State<RegistrarPage> {
                       cursorColor: Colors.black,
                       textAlign: TextAlign.start,
                       maxLines: 1,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor, informe a senha';
-                        }
-                        return null; // Retorna null se a validação for bem-sucedida
-                      },
+                      validator: _validarSenha,
                       decoration: const InputDecoration(
                         fillColor: Colors.white,
                         filled: true,
@@ -160,7 +178,10 @@ class _RegistrarPageState extends State<RegistrarPage> {
                         if (value == null || value.isEmpty) {
                           return 'Por favor, informe a senha';
                         }
-                        return null; // Retorna null se a validação for bem-sucedida
+                        if (value != _senhaController.text) {
+                          return 'As senhas não correspondem';
+                        }
+                        return null;
                       },
                       decoration: const InputDecoration(
                         fillColor: Colors.white,
@@ -186,8 +207,12 @@ class _RegistrarPageState extends State<RegistrarPage> {
                         if (value == null || value.isEmpty) {
                           return 'Por favor, informe o Telefone';
                         }
-                        return null; // Retorna null se a validação for bem-sucedida
+                        return null;
                       },
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        PhoneNumberFormatter(),
+                      ],
                       decoration: const InputDecoration(
                         fillColor: Colors.white,
                         filled: true,
@@ -215,13 +240,13 @@ class _RegistrarPageState extends State<RegistrarPage> {
                           if (value == null || value.isEmpty) {
                             return 'Por favor, informe a data de nascimento';
                           }
-                          return null; // Retorna null se a validação for bem-sucedida
+                          return null;
                         },
                         onChanged: (value) {
                           if (value.length > 10) {
                             return;
                           }
-                          // Implemente a formatação conforme o usuário digita
+
                           if (value.length == 2 || value.length == 5) {
                             _dataNascimentoController.text = '$value/';
                             _dataNascimentoController.selection =
@@ -231,7 +256,6 @@ class _RegistrarPageState extends State<RegistrarPage> {
                           }
                         },
                         decoration: const InputDecoration(
-                          counter: null,
                           counterText: '',
                           border: OutlineInputBorder(),
                           labelText: 'Data de nascimento',

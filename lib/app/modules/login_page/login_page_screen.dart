@@ -16,6 +16,13 @@ class _LoginPageScreenState extends State<LoginPageScreen>
   late Animation<double> _sizeAnimation;
   int _selectedIndex = 0;
 
+  static const String _username = 'gustavo';
+  static const String _password = '213243';
+
+  // Controllers para os campos de login e senha
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -38,7 +45,30 @@ class _LoginPageScreenState extends State<LoginPageScreen>
   @override
   void dispose() {
     _controller.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
     super.dispose();
+  }
+
+  void _login() {
+    // Obter os valores dos campos de login e senha
+    String enteredUsername = _usernameController.text.trim();
+    String enteredPassword = _passwordController.text.trim();
+
+    // Comparar com as credenciais "xumbadas" (hardcoded)
+    if (enteredUsername == _username && enteredPassword == _password) {
+      // Se as credenciais estiverem corretas, navegue para a próxima tela
+      Navigator.pushNamed(context,
+          '/menu'); // Substitua '/home' pelo nome da rota da próxima tela
+    } else {
+      // Caso contrário, exiba uma mensagem de erro (opcional)
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Credenciais inválidas. Tente novamente.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   void _onItemTapped(int index) {
@@ -98,36 +128,36 @@ class _LoginPageScreenState extends State<LoginPageScreen>
                 ),
                 Column(
                   children: [
-                    Container(
-                      color: Colors.white,
-                      child: const SizedBox(
-                        width: 250,
-                        child: TextField(
-                          cursorColor: Colors.black,
-                          textAlign: TextAlign.start,
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Login',
-                          ),
+                    SizedBox(
+                      width: 250,
+                      child: TextField(
+                        controller: _usernameController,
+                        cursorColor: Colors.black,
+                        textAlign: TextAlign.start,
+                        maxLines: 1,
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          border: OutlineInputBorder(),
+                          labelText: 'Login',
                         ),
                       ),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    Container(
-                      color: Colors.white,
-                      child: const SizedBox(
-                        width: 250,
-                        child: TextField(
-                          cursorColor: Colors.black,
-                          textAlign: TextAlign.start,
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'senha',
-                          ),
+                    SizedBox(
+                      width: 250,
+                      child: TextField(
+                        controller: _passwordController,
+                        cursorColor: Colors.black,
+                        textAlign: TextAlign.start,
+                        maxLines: 1,
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          border: OutlineInputBorder(),
+                          labelText: 'senha',
                         ),
                       ),
                     ),
@@ -162,7 +192,7 @@ class _LoginPageScreenState extends State<LoginPageScreen>
                               foregroundColor: WidgetStateProperty.all<Color>(
                                   const Color.fromARGB(255, 5, 5, 5)),
                             ),
-                            onPressed: () {},
+                            onPressed: () => _login(),
                             child: const Text('Login'),
                           ),
                         ),

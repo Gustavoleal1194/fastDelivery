@@ -1,3 +1,4 @@
+import 'package:estudo_flutter/app/modules/menu_page/menu_page_screen.dart';
 import 'package:estudo_flutter/app/modules/registrar_page/registrar_page_screen.dart';
 import 'package:estudo_flutter/app/modules/login_page/login_page_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (_) => const LoginPageScreen(),
         '/registrar': (_) => const RegistrarPage(),
+        '/menu': (_) => const MenuPageScreen(),
       },
     );
   }
