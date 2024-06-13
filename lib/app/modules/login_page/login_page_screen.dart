@@ -2,6 +2,7 @@ import 'package:estudo_flutter/app/modules/login_page/show_dialog_esqueceu_senha
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'animated_image.dart';
 
 final Uri _fbUrl =
     Uri.parse('https://pt-br.facebook.com/login/device-based/regular/login/');
@@ -27,6 +28,7 @@ class _LoginPageScreenState extends State<LoginPageScreen>
   late Animation<double> _sizeAnimation;
   int _selectedIndex = 0;
 
+  final GlobalKey<AnimatedImageState> _animatedImageKey = GlobalKey();
   static const String _username = 'gustavo';
   static const String _password = '213243';
 
@@ -136,18 +138,21 @@ class _LoginPageScreenState extends State<LoginPageScreen>
                   FloatingActionButton(
                     onPressed: () {
                       if (_controller.isCompleted) {
+                        _animatedImageKey.currentState?.stopAnimation();
                         _controller.reverse();
                       } else {
+                        _animatedImageKey.currentState?.startAnimation();
                         _controller.forward();
                       }
                     },
                     child: const Icon(Icons.play_arrow),
                   ),
                   SizedBox(
-                    width: 250,
-                    height: 250,
-                    child: Image.asset('assets/LogoFood.png'),
-                  ),
+                      width: 250,
+                      height: 250,
+                      child: AnimatedImage(
+                        key: _animatedImageKey,
+                      )),
                   const SizedBox(
                     height: 20,
                   ),
