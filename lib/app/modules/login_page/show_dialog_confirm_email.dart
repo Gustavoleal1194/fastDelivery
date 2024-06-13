@@ -13,7 +13,8 @@ class ShowDialogConfirmEmail {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                Navigator.pushNamed(context, '/'); // Fecha o modal
+                Navigator.pushNamed(context, '/');
+                // Fecha o modal
               },
             ),
           ],

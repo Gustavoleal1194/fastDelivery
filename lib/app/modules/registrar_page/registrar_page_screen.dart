@@ -1,3 +1,4 @@
+import 'package:estudo_flutter/app/modules/helpers/validators/email_validator.dart';
 import 'package:estudo_flutter/app/modules/registrar_page/show_dialog_confirm.dart';
 import 'package:estudo_flutter/app/modules/registrar_page/phone_class_formater.dart';
 import 'package:flutter/material.dart';
@@ -32,17 +33,6 @@ class _RegistrarPageState extends State<RegistrarPage> {
         );
       }
     }
-  }
-
-  String? _validarEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Por favor, informe o e-mail';
-    }
-    final regex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
-    if (!regex.hasMatch(value)) {
-      return 'Por favor, informe um e-mail válido';
-    }
-    return null;
   }
 
   String? _validarSenha(String? value) {
@@ -130,7 +120,7 @@ class _RegistrarPageState extends State<RegistrarPage> {
                       cursorColor: Colors.black,
                       textAlign: TextAlign.start,
                       maxLines: 1,
-                      validator: _validarEmail,
+                      validator: EmailValidator.validate,
                       decoration: const InputDecoration(
                         fillColor: Colors.white,
                         filled: true,
