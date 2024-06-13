@@ -1,3 +1,4 @@
+import 'package:estudo_flutter/app/modules/login_page/show_dialog_esqueceu_senha.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -202,7 +203,9 @@ class _LoginPageScreenState extends State<LoginPageScreen>
                       height: 10,
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        ShowDialogEsqueceuSenha.show(context);
+                      },
                       child: const Text(
                         'Esqueceu a senha?',
                         style: TextStyle(color: Colors.white),

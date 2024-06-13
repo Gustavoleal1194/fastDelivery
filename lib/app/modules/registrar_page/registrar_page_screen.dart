@@ -226,40 +226,39 @@ class _RegistrarPageState extends State<RegistrarPage> {
                   height: 20,
                 ),
                 Center(
-                  child: Container(
-                    color: Colors.white,
-                    child: SizedBox(
-                      width: 250,
-                      child: TextFormField(
-                        controller: _dataNascimentoController,
-                        cursorColor: Colors.black,
-                        textAlign: TextAlign.start,
-                        maxLines: 1,
-                        maxLength: 10,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Por favor, informe a data de nascimento';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          if (value.length > 10) {
-                            return;
-                          }
+                  child: SizedBox(
+                    width: 250,
+                    child: TextFormField(
+                      controller: _dataNascimentoController,
+                      cursorColor: Colors.black,
+                      textAlign: TextAlign.start,
+                      maxLines: 1,
+                      maxLength: 10,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, informe a data de nascimento';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        if (value.length > 10) {
+                          return;
+                        }
 
-                          if (value.length == 2 || value.length == 5) {
-                            _dataNascimentoController.text = '$value/';
-                            _dataNascimentoController.selection =
-                                TextSelection.fromPosition(TextPosition(
-                                    offset:
-                                        _dataNascimentoController.text.length));
-                          }
-                        },
-                        decoration: const InputDecoration(
-                          counterText: '',
-                          border: OutlineInputBorder(),
-                          labelText: 'Data de nascimento',
-                        ),
+                        if (value.length == 2 || value.length == 5) {
+                          _dataNascimentoController.text = '$value/';
+                          _dataNascimentoController.selection =
+                              TextSelection.fromPosition(TextPosition(
+                                  offset:
+                                      _dataNascimentoController.text.length));
+                        }
+                      },
+                      decoration: const InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        counterText: '',
+                        border: OutlineInputBorder(),
+                        labelText: 'Data de nascimento',
                       ),
                     ),
                   ),
